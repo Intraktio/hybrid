@@ -3,7 +3,7 @@ import { Storage as IonicStorage } from '@ionic/storage';
 import { Store } from '@ngrx/store';
 import debug from 'debug';
 
-import { AppState, IListState } from './../reducers';
+import { AppState } from './../reducers';
 import { INIT } from './../actions';
 
 const log = debug('Storage');
@@ -11,7 +11,7 @@ const log = debug('Storage');
 @Injectable()
 export class Storage {
 
-    toSave = ['bookmarks', 'list', 'items', 'params']
+    toSave = ['bookmarks', 'list', 'items', 'itemsSlugMapping', 'params']
 
     constructor(
         private store: Store<AppState>,
@@ -32,10 +32,10 @@ export class Storage {
 
     run() {
         this.toSave.forEach(name => {
-            this.store.select(name).skip(1).debounceTime(500).subscribe((things: any) => {
-                log(`[Store] saving ${name}`);
-                this.storage.set(name, JSON.stringify(things));
-            });
+            // this.store.select(name).skip(1).debounceTime(500).subscribe((things: any) => {
+            //     log(`[Store] saving ${name}`);
+            //     this.storage.set(name, JSON.stringify(things));
+            // });
         });
     }
 }

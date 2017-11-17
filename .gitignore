@@ -46,3 +46,4 @@ myapp/
 config/
 
 .io-config.json
+.sourcemaps

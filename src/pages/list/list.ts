@@ -1,8 +1,5 @@
 import { Observable } from 'rxjs';
-import {
-  Component, Injector,
-  ComponentFactoryResolver
-} from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { WpApiCustom } from 'wp-api-angular';
 import { Store } from '@ngrx/store';
@@ -10,9 +7,10 @@ import _get from 'lodash/get';
 import _take from 'lodash/take';
 import _isObject from 'lodash/isObject';
 
-import { AbstractListPage, IListPage, IListResult } from '../abstract/PaginatedPage';
-import { addList, cleanList } from '../../actions';
+import { ListParent, IListPage, IListResult } from '../abstract/ListParent';
+import { actions } from '../../reducers/list';
 import { AppState } from '../../reducers';
+import { IAPIError } from '../../APIInterfaces';
 
 /*
   Generated class for the Pages page.
@@ -24,71 +22,63 @@ import { AppState } from '../../reducers';
   selector: 'page-list',
   templateUrl: 'list.html'
 })
-export class ListPage extends AbstractListPage implements IListPage {
+export class ListPage extends ListParent implements IListPage {
   title: string;
 
   constructor(
     public inject: Injector,
-    public componentFactoryResolver: ComponentFactoryResolver,
     private navCtrl: NavController,
     private store: Store<AppState>,
     private wpApiCustom: WpApiCustom,
   ) {
     super(inject);
-    const options = this.navParams.get('options');
-
-    this.setType(this.navParams.get('type'));
-    this.title = this.getTitle();
-
-    if (_isObject(options)) {
-      this.setOptions(options);
-    } else if (typeof options === 'string') {
-      this.setOptions(JSON.parse(options || "{}"))
-    }
-
-    const listKey = this.options.query ? this.type + JSON.stringify(this.options.query) : this.type;
-
-    this.setStore(store.select(state => state.list[listKey]));
-
-    this.setStream(
-      Observable.combineLatest(
-        this.store$,
-        this.store.select(state => state.items[this.type]),
-        this.itemsToDisplay$,
-        (listState: any, item = {}, itemsToDisplay) => {
-          return _take(_get(listState, 'list', []), itemsToDisplay).map(id => item[id])
-        }))
-
-    this.setService(wpApiCustom.getInstance(this.type))
   }
 
   ionViewDidLoad() {
-    super.ionViewDidLoad();
+    this.title = this.getTitle();
+
+    this.setStoreStream(this.store.select(state => state.list[this.getUniqueStoreKey()]));
+    this.setIsLoadingStream(this.store.select(state => _get(state, `list[${this.getUniqueStoreKey()}].submitting`)));
+    this.setShowSpinnerStream(Observable.combineLatest(
+      this.store$,
+      this.isLoading$,
+      (listState: any, isLoading: boolean) =>
+        isLoading && !_get(listState, 'list', []).length
+    ));
+    this.setStream(Observable.combineLatest(
+      this.store$,
+      this.store.select(state => state.items[this.type]),
+      this.itemsToDisplay$,
+      (listState: any, item = {}, itemsToDisplay) =>
+        _take(_get(listState, 'list', []), itemsToDisplay).map(id => item[id])));
+    this.setService(this.wpApiCustom.getInstance(this.type));
+    this.doInit();
   }
 
   doInit(): void {
-    super.doInit();
-
     let currentList = this.getCurrentList();
     if (!currentList.length) {
-      this.fetch().first().subscribe();
+      this.doLoad();
     } else {
-      this.init = true;
-      this.updateItemsToDisplay();
+      this.updateItemsToDisplay(true);
     }
   }
 
-  onLoad({ page, totalPages, totalItems, list }: IListResult) {
-    this.store.dispatch(addList(this.type, this.options.query, {
+  onRequest(reset: boolean) {
+    this.store.dispatch(actions.request(this.type, this.getQuery(), reset));
+  }
+
+  onSuccess({ page, totalPages, totalItems, list }: IListResult, reset: boolean) {
+    this.store.dispatch(actions.success(this.type, this.getQuery(), {
       page,
       totalPages,
       totalItems,
       list
-    }));
+    }, reset));
   }
 
-  onClean() {
-    this.store.dispatch(cleanList(this.type));
+  onError(error: IAPIError) {
+    this.store.dispatch(actions.error(this.type, this.getQuery(), error));
   }
 
   getTitle() {
