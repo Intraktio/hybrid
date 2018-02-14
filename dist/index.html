@@ -41,6 +41,16 @@
 
   <!-- The bundle js is generated during the build process -->
   <script src="build/main.js"></script>
+	
+  <!-- Due to splash screen bug, we have to dismiss the splash screen 
+    here instead of inside the Ionic code. -->
+  <script>
+    setTimeout(function() {
+      if (navigator.splashscreen) {
+        navigator.splashscreen.hide();
+      }
+    }, 300);
+  </script>
 
 </body>
 </html>
