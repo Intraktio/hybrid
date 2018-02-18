@@ -1,14 +1,8 @@
 import { Action } from '@ngrx/store'
 
-export const SIGNIN = 'SIGNIN';
-export const PROMPTED = 'PROMPTED';
+export const AUTHENTICATE = 'AUTHENTICATE';
 
-export class Signin implements Action {
-    readonly type = SIGNIN;
-}
-
-export class Prompted implements Action {
-    readonly type = PROMPTED;
-}
-
-export type AuthenticationActions = Signin | Prompted;
+export const setAuthentication = (details): Action => ({
+    type: AUTHENTICATE,
+    payload: details
+})

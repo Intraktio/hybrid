@@ -1,32 +1,36 @@
 import { ActionReducer, Action } from '@ngrx/store';
-import { SIGNIN, PROMPTED, AuthenticationActions} from '../actions/authentication'
+import { INIT, AUTHENTICATE, CLEAN_CACHE } from '../actions';
 
 export interface AuthenticationState {
     token: string;
     authenticated: boolean;
-    firstTimeLogin: boolean;
 }
 
 const defaultState = {
     token: null,
-    authenticated: false,
-    firstTimeLogin: true
+    authenticated: false
 }
 
-export const authenticationReducer: ActionReducer<Object> = (state: AuthenticationState = defaultState, action: AuthenticationActions) => {
+export const authenticationReducer: ActionReducer<Object> = (state: Object = defaultState, action: Action) => {
+    const payload = action.payload;
+
     switch (action.type) {
-        case SIGNIN : {
-            return {
-                ...state,
-                authenticated: true
-            };
-        }
-        case PROMPTED : {
-            return {
-                ...state,
-                firstTimeLogin: false
+        case AUTHENTICATE : {
+            if (payload.authenticated === undefined) {
+                payload.authenticated = payload.token != null;
             }
+            return Object.assign({}, state, payload);
         }
+
+        case INIT: {
+            return payload.authentication || defaultState;
+        }
+
+        case CLEAN_CACHE: {
+            return defaultState;
+        }
+
+        default:
+            return state;
     }
-    return state;
 }

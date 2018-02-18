@@ -8,3 +8,4 @@ export * from './list';
 export * from './params';
 export * from './search';
 export * from './pushNotifications';
+export * from './authentication';

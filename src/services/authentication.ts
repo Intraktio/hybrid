@@ -1,9 +1,9 @@
-import {AppState} from "../reducers/index";
-import {Store} from "@ngrx/store";
-import {Injectable} from "@angular/core";
-import * as AuthenticationActions from '../actions/authentication';
-import {WpApiUsers} from "wp-api-angular";
-import {AuthenticationState} from "../reducers/authentication";
+import { AppState } from "../reducers/index";
+import { Store } from "@ngrx/store";
+import { Injectable } from "@angular/core";
+import { WpApiUsers } from "wp-api-angular";
+import { AuthenticationState } from "../reducers/authentication";
+import { setAuthentication } from './../actions';
 
 @Injectable()
 export class AuthenticationService {
@@ -13,20 +13,8 @@ export class AuthenticationService {
         private wpApiUsers: WpApiUsers,
     ) {}
 
-    /**
-     * Returns a promise if the user has not been prompted and has no authentication token.
-     */
-    promptLogin() {
-        return this.store.select<AuthenticationState>('authentication')
-            .filter(auth => {
-                let noToken = (auth.token === null);
-                return noToken && auth.firstTimeLogin
-            })
-            .take(1)
-            .toPromise()
-            .then(auth => {
-                this.store.dispatch(new AuthenticationActions.Prompted());
-            })
+    getAuthenticationState() {
+        return this.store.select('authentication').take(1);
     }
 
     /**
@@ -39,7 +27,7 @@ export class AuthenticationService {
             .then(response => response.json())
             .then(response => {
                 console.log(response);
-                this.store.dispatch(new AuthenticationActions.Signin());
+                //this.store.dispatch(setAuthentication());
                 return response;
             })
     }

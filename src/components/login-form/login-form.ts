@@ -5,7 +5,7 @@ import { Config } from '../../../src/providers';
 import { WpApiAuth, WpApiUsers } from 'wp-api-angular';
 import { Store } from '@ngrx/store';
 import { AppState } from "../../../src/reducers/index";
-import * as AuthenticationActions from '../../../src/actions/authentication';
+import { setAuthentication } from '../../actions';
 
 @Component({
     selector: 'login-form',
@@ -58,15 +58,7 @@ export class LoginFormComponent {
     set isRegisterForm(val: boolean) {}
 
     get isLoginForm() { return this.formType === 'login'; }
-    set isLoginForm(val: boolean) {
-        this.wpApiAuth.auth(this.auth.value)
-            .toPromise()
-            .then(response => response.json())
-            .then(json => {
-                this.wpApiAuth.saveSession(json);
-            })
-            .catch(error => console.log(error));
-    }
+    set isLoginForm(val: boolean) {}
 
     authFormOnSubmit() {
         if (this.isRegisterForm) {
@@ -99,7 +91,11 @@ export class LoginFormComponent {
             .then(json => {
                 console.log('Got session');
                 this.wpApiAuth.saveSession(json);
-                this.store.dispatch(new AuthenticationActions.Signin());
+                this.store.dispatch(setAuthentication({
+                    token: json.token,
+                    name: json.user_display_name,
+                    email: json.user_email
+                }));
                 this.onLoginSuccess();
             })
             .catch(error => {
