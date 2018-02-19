@@ -2,8 +2,9 @@ import { AppState } from "../reducers/index";
 import { Store } from "@ngrx/store";
 import { Injectable } from "@angular/core";
 import { WpApiUsers } from "wp-api-angular";
-import { AuthenticationState } from "../reducers/authentication";
+import { authenticationReducer } from "../reducers/authentication";
 import { setAuthentication } from './../actions';
+import _get from 'lodash/get';
 
 @Injectable()
 export class AuthenticationService {
@@ -14,7 +15,13 @@ export class AuthenticationService {
     ) {}
 
     getAuthenticationState() {
-        return this.store.select('authentication').take(1);
+        return this.store.select(state => {
+            let item = _get(state, 'authentication');
+            if (!item) {
+                item = authenticationReducer();
+            }
+            return item;
+        }).take(1);
     }
 
     /**

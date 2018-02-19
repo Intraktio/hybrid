@@ -15,10 +15,13 @@ export class LoginFormComponent {
 
     @Input() onLoginSuccess: Function;
     @Input() onLoginError: Function;
+
     private auth: FormGroup;
     formType: string;
     registrationUrl: string;
     user: any;
+
+    errorMessage: string;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -48,7 +51,7 @@ export class LoginFormComponent {
     setFormType(type) {
         let oldType = this.formType;
         this.formType = type;
-        if (this.isRegisterForm) {
+        if (this.isRegisterForm && this.registrationUrl) {
             const browser = this.iab.create(this.registrationUrl);
             this.formType = oldType;
         }
@@ -100,7 +103,8 @@ export class LoginFormComponent {
             })
             .catch(error => {
                 this.onLoginError();
-                console.log("error", error)
+                console.log("error", error);
+                this.errorMessage = JSON.parse(error._body).message;
             });
     }
 

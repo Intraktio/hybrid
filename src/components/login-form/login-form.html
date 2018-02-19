@@ -15,11 +15,17 @@
                 <ion-input type="hidden" value="register" formControlName="password2"></ion-input>
             </ion-item>
         </ion-list>
-        <div padding>
-            <button *ngIf="isLoginForm" ion-button type="submit" block>{{ 'LOGIN' | translate }}</button>
-            <button *ngIf="isRegisterForm" ion-button type="submit" block>{{ 'REGISTER' | translate }}</button>
+        <div padding [innerHtml]="errorMessage"></div>
+        <div padding *ngIf="isLoginForm">
+            <button ion-button type="submit" block>{{ 'LOGIN' | translate }}</button>
             <p text-center>
                 <a (click)="setFormType('register')">{{ 'OR_REGISTER_HERE' | translate }}</a>
+            </p>
+        </div>
+        <div padding *ngIf="isRegisterForm">
+            <button ion-button type="submit" block>{{ 'REGISTER' | translate }}</button>
+            <p text-center>
+                <a (click)="setFormType('login')">{{ 'OR_LOGIN_HERE' | translate }}</a>
             </p>
         </div>
     </form>
