@@ -74,6 +74,7 @@ export class LoginFormComponent {
     set isLoginForm(val: boolean) {}
 
     authFormOnSubmit() {
+        this.messages = []; // Clear form messages on submit
         if (this.isRegisterForm) {
             this.register();
         }
