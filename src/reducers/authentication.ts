@@ -15,7 +15,7 @@ export const authenticationReducer: ActionReducer<Object> = (state: Object = def
     const payload = action.payload;
 
     switch (action.type) {
-        case AUTHENTICATE : {
+        case AUTHENTICATE: {
             if (payload.authenticated === undefined && payload.token !== undefined) {
                 payload.authenticated = payload.token != null;
             }

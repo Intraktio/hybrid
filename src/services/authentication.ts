@@ -25,7 +25,7 @@ export class AuthenticationService {
     }
 
     setAuthenticationState(details) {
-        this.store.dispatch(setAuthentication(details));
+        return this.store.dispatch(setAuthentication(details));
     }
 
 }
