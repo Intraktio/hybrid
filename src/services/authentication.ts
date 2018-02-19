@@ -24,19 +24,8 @@ export class AuthenticationService {
         }).take(1);
     }
 
-    /**
-     * Authenticates the current user and returns a resolved promise upon success and a rejected promise upon failure.
-     */
-    authenticate() {
-        return this.wpApiUsers
-            .me()
-            .toPromise()
-            .then(response => response.json())
-            .then(response => {
-                console.log(response);
-                //this.store.dispatch(setAuthentication());
-                return response;
-            })
+    setAuthenticationState(details) {
+        this.store.dispatch(setAuthentication(details));
     }
 
 }
