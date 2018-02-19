@@ -1,4 +1,7 @@
+// TODO: Better debugging.
+
 import { Component, Input } from '@angular/core';
+import { Headers } from '@angular/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Config } from '../../../src/providers';
@@ -7,21 +10,29 @@ import { Store } from '@ngrx/store';
 import { AppState } from "../../../src/reducers/index";
 import { setAuthentication } from '../../actions';
 
+export const TYPE_LOGIN = 'login';
+export const TYPE_REGISTER = 'register';
+
+interface ILoginFormMessage {
+    type: string;
+    message: string;
+}
+
 @Component({
     selector: 'login-form',
     templateUrl: 'login-form.html'
 })
 export class LoginFormComponent {
 
-    @Input() onLoginSuccess: Function;
-    @Input() onLoginError: Function;
+    @Input() onSuccess: (type, data) => void;
+    @Input() onError: (type, data) => void;
+    @Input() formType: string;
 
     private auth: FormGroup;
-    formType: string;
     registrationUrl: string;
     user: any;
 
-    errorMessage: string;
+    messages: ILoginFormMessage[] = [];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -36,9 +47,9 @@ export class LoginFormComponent {
             'username': ['', Validators.required],
             'password': ['', Validators.required],
             'password2': ['', this.isPassword2Correct.bind(this)],
-            'type': ['login']
+            'type': [TYPE_LOGIN]
         });
-        this.setFormType('login');
+        this.setFormType(this.formType || TYPE_LOGIN);
     }
 
     isPassword2Correct() {
@@ -49,21 +60,21 @@ export class LoginFormComponent {
     }
 
     setFormType(type) {
-        let oldType = this.formType;
         this.formType = type;
         if (this.isRegisterForm && this.registrationUrl) {
             const browser = this.iab.create(this.registrationUrl);
-            this.formType = oldType;
+            this.formType = TYPE_LOGIN;
         }
     }
 
-    get isRegisterForm() { return this.formType === 'register'; }
+    get isRegisterForm() { return this.formType === TYPE_REGISTER; }
     set isRegisterForm(val: boolean) {}
 
-    get isLoginForm() { return this.formType === 'login'; }
+    get isLoginForm() { return this.formType === TYPE_LOGIN; }
     set isLoginForm(val: boolean) {}
 
     authFormOnSubmit() {
+        this.messages = []; // Clear form messages on submit
         if (this.isRegisterForm) {
             this.register();
         }
@@ -75,20 +86,36 @@ export class LoginFormComponent {
     register() {
         console.log('register');
         this.wpApiUsers.create({
-            username: this.auth.value.username,
-            email: this.auth.value.username,
-            password: this.auth.value.password,
+            user_login: this.auth.value.username,
+            user_email: this.auth.value.username,
+            user_pass: this.auth.value.password,
+        }, {
+            headers: new Headers({
+                'Authorization': ''
+            })
         })
             .toPromise()
             .then(response => response.json())
             .then(json => {
                 console.log(json);
+                this.onSuccess(TYPE_REGISTER, json);
+                this.formType = TYPE_LOGIN;
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                this.onError(TYPE_REGISTER, error);
+                console.log("error", error);
+                this.messages.push({
+                    type: 'error',
+                    message: JSON.parse(error._body).message
+                });
+            });
     }
 
     login() {
-        this.wpApiAuth.auth(this.auth.value)
+        this.wpApiAuth.auth({
+            username: this.auth.value.username,
+            password: this.auth.value.password,
+        })
             .toPromise()
             .then(response => response.json())
             .then(json => {
@@ -99,12 +126,15 @@ export class LoginFormComponent {
                     name: json.user_display_name,
                     email: json.user_email
                 }));
-                this.onLoginSuccess();
+                this.onSuccess(TYPE_LOGIN, json);
             })
             .catch(error => {
-                this.onLoginError();
+                this.onError(TYPE_LOGIN, error);
                 console.log("error", error);
-                this.errorMessage = JSON.parse(error._body).message;
+                this.messages.push({
+                    type: 'error',
+                    message: JSON.parse(error._body).message
+                });
             });
     }
 
