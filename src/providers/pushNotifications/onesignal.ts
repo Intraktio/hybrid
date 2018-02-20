@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import { OneSignal } from '@ionic-native/onesignal';
 
 import { IPushNotifications } from './interface';
+import debug from 'debug';
+
+const log = debug('OneSignalPushNotifications');
 
 @Injectable()
 export class OneSignalPushNotifications implements IPushNotifications {
 	constructor(private oneSignal: OneSignal) {
 	}
 	init() {
+		log('init');
 		this.oneSignal.startInit('', '');
 		this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
 		this.oneSignal.handleNotificationReceived().subscribe(() => {

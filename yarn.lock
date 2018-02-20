@@ -17,7 +17,7 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/common@4.4.6", "@angular/common@^4.4.6":
+"@angular/common@4.4.6", "@angular/common@^4.0.0", "@angular/common@^4.4.6":
   version "4.4.6"
   resolved "https://registry.yarnpkg.com/@angular/common/-/common-4.4.6.tgz#4b81420724e0828a0e839b95a55eb1a7e83918f2"
   dependencies:
@@ -31,7 +31,7 @@
     minimist "^1.2.0"
     reflect-metadata "^0.1.2"
 
-"@angular/compiler@4.4.6", "@angular/compiler@^4.4.6":
+"@angular/compiler@4.4.6", "@angular/compiler@^4.0.0", "@angular/compiler@^4.4.6":
   version "4.4.6"
   resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-4.4.6.tgz#2ee1faf25b757e1d128979074be7fae529b3bc20"
   dependencies:
@@ -55,13 +55,13 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@4.4.6", "@angular/platform-browser-dynamic@^4.4.6":
+"@angular/platform-browser-dynamic@4.4.6", "@angular/platform-browser-dynamic@^4.0.0", "@angular/platform-browser-dynamic@^4.4.6":
   version "4.4.6"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.4.6.tgz#4d3d9a6a7bf2cf3de4058a615ae059eff641fa36"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser@4.4.6", "@angular/platform-browser@^4.4.6":
+"@angular/platform-browser@4.4.6", "@angular/platform-browser@^4.0.0", "@angular/platform-browser@^4.4.6":
   version "4.4.6"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-4.4.6.tgz#a9839c547e1b654fa1d24a89780c8ba6ab8dcce0"
   dependencies:
@@ -101,6 +101,10 @@
 "@ionic-native/in-app-browser@^3.8.0":
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/in-app-browser/-/in-app-browser-3.14.0.tgz#915d09eba9e2b36a8edce831c238cc40b1771607"
+
+"@ionic-native/onesignal@^4.5.3":
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/@ionic-native/onesignal/-/onesignal-4.5.3.tgz#e4338521520fe6f743a5382c4aa8cad64ce4543a"
 
 "@ionic-native/push@^3.8.0":
   version "3.14.0"

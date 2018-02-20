@@ -1,9 +1,10 @@
 import { Injectable, Injector } from '@angular/core';
 
 import { Config } from '../config';
-import { PushNotificationsForWordPress } from './push-notifications-for-wordpress';
 
-export * from './push-notifications-for-wordpress';
+import { IPushNotifications } from './interface';
+import { PushNotificationsForWordPress } from './push-notifications-for-wordpress';
+import { OneSignalPushNotifications } from './onesignal';
 
 /*
   Generated class for the PushNotifications provider.
@@ -13,23 +14,27 @@ export * from './push-notifications-for-wordpress';
 */
 @Injectable()
 export class PushNotifications {
-    instance: PushNotificationsForWordPress;
+    instance: IPushNotifications;
 
     constructor(
         public config: Config,
         public injector: Injector
     ) {
-        // const plugin = this.config.getPushNotifications('plugin', 'push-notifications-for-wordpress');
+        const plugin = this.config.getPushNotifications('plugin', 'onesignal');
 
-        // if (plugin === 'push-notifications-for-wordpress') {
-        //     this.instance = this.injector.get(PushNotificationsForWordPress, PushNotificationsForWordPress);
-        // } else {
-        //     throw new Error(`[PushNotifications] plugin "${plugin}" does not exists`);
-        // }
-
+        switch (plugin) {
+            case 'onesignal':
+                this.instance = this.injector.get(OneSignalPushNotifications, OneSignalPushNotifications);
+            break;
+            case 'push-notifications-for-wordpress':
+                this.instance = this.injector.get(PushNotificationsForWordPress, PushNotificationsForWordPress);
+            break;
+            default:
+                throw new Error(`[PushNotifications] plugin "${plugin}" does not exists`);
+        }
     }
 
     init() {
-        // this.instance.init();
+        this.instance.init();
     }
 }

@@ -3,7 +3,7 @@ import { Toast } from './toast';
 import { Menu } from './menu';
 import { Storage } from './storage';
 import { ServiceWorkerProvider } from './service-worker/service-worker';
-import { PushNotifications, PushNotificationsForWordPress } from './pushNotifications';
+import { PushNotifications } from './pushNotifications';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -20,7 +20,6 @@ export const PROVIDERS = [
   Menu,
   Storage,
   PushNotifications,
-  PushNotificationsForWordPress,
   ServiceWorkerProvider,
   // TODO: InAppBrowser in seperated provider class / wrapper
   InAppBrowser,
