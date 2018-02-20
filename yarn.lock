@@ -6942,11 +6942,11 @@ tsickle@^0.21.0:
     source-map "^0.5.6"
     source-map-support "^0.4.2"
 
-tslib@^1.0.0, tslib@^1.7.1:
+tslib@^1.0.0:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.7.1.tgz#bc8004164691923a79fe8378bbeb3da2017538ec"
 
-tslib@^1.8.0, tslib@^1.8.1:
+tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
 
@@ -7391,8 +7391,8 @@ wordwrap@~0.0.2:
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
 
 wp-api-angular@Intraktio/wp-api-angular.git#dist:
-  version "3.1.0-alpha.1"
-  resolved "https://codeload.github.com/Intraktio/wp-api-angular/tar.gz/8d3373d76fbf37ac5e1a5d8b940cbc570fdf0894"
+  version "3.0.0-beta8"
+  resolved "https://codeload.github.com/Intraktio/wp-api-angular/tar.gz/f27d60c52d9749faabc0e21a4ea8af6c6a30c119"
   dependencies:
     "@angular/common" "^4.4.6"
     "@angular/compiler" "^4.4.6"

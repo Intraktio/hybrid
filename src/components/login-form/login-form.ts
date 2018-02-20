@@ -9,6 +9,9 @@ import { WpApiAuth, WpApiUsers } from 'wp-api-angular';
 import { Store } from '@ngrx/store';
 import { AppState } from "../../../src/reducers/index";
 import { setAuthentication } from '../../actions';
+import debug from 'debug';
+
+const log = debug('LoginFormComponent');
 
 export const TYPE_LOGIN = 'login';
 export const TYPE_REGISTER = 'register';
@@ -84,7 +87,7 @@ export class LoginFormComponent {
     }
 
     register() {
-        console.log('register');
+        log('register');
         this.wpApiUsers.create({
             user_login: this.auth.value.username,
             user_email: this.auth.value.username,
@@ -94,20 +97,18 @@ export class LoginFormComponent {
                 'Authorization': ''
             })
         })
-            .toPromise()
-            .then(response => response.json())
-            .then(json => {
-                console.log(json);
-                this.onSuccess(TYPE_REGISTER, json);
+            .map(response => response.json())
+            .subscribe(json => {
+                log(json);
                 this.formType = TYPE_LOGIN;
-            })
-            .catch(error => {
-                this.onError(TYPE_REGISTER, error);
-                console.log("error", error);
+                this.onSuccess && this.onSuccess(TYPE_REGISTER, json);
+            }, error => {
+                log("error", error);
                 this.messages.push({
                     type: 'error',
                     message: JSON.parse(error._body).message
                 });
+                this.onError && this.onError(TYPE_REGISTER, error);
             });
     }
 
@@ -116,26 +117,25 @@ export class LoginFormComponent {
             username: this.auth.value.username,
             password: this.auth.value.password,
         })
-            .toPromise()
-            .then(response => response.json())
-            .then(json => {
-                console.log('Got session');
+            .map(response => response.json())
+            .catch(error => error)
+            .subscribe(json => {
+                log('Got session', json);
                 this.wpApiAuth.saveSession(json);
                 this.store.dispatch(setAuthentication({
                     token: json.token,
                     name: json.user_display_name,
                     email: json.user_email
                 }));
-                this.onSuccess(TYPE_LOGIN, json);
-            })
-            .catch(error => {
-                this.onError(TYPE_LOGIN, error);
-                console.log("error", error);
+                this.onSuccess && this.onSuccess(TYPE_LOGIN, json);
+            }, error => {
+                log("error", error);
                 this.messages.push({
                     type: 'error',
                     message: JSON.parse(error._body).message
                 });
-            });
+                this.onError && this.onError(TYPE_LOGIN, error);
+            })
     }
 
 }
