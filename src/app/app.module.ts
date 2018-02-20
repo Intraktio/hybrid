@@ -36,6 +36,7 @@ import { PROVIDERS, Config, Storage as OwnStorage, } from '../providers';
 import { PIPES } from '../pipes';
 
 import * as ionicConfig from './config/app.config.ionic';
+import { AuthenticationService } from "../services/authentication";
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: Http) {
@@ -75,6 +76,12 @@ export function appInitializerTranslateFactory(translate: TranslateService, inje
     });
   });
 };
+
+export function appInitializerAuthenticationFactory(auth: AuthenticationService) {
+  return function () {
+    auth.isAuthenticated();
+  }
+}
 
 @NgModule({
   declarations: [...COMPONENTS, ...PAGES, WPHC, ...PIPES, ...DIRECTIVES],
@@ -122,7 +129,14 @@ export function appInitializerTranslateFactory(translate: TranslateService, inje
       useFactory: appInitializerTranslateFactory,
       deps: [TranslateService, Injector, Config],
       multi: true
-    }
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerAuthenticationFactory,
+      deps: [AuthenticationService],
+      multi: true
+    },
+    AuthenticationService
   ]
 })
 export class AppModule { }

@@ -4,6 +4,7 @@ import { itemsReducer } from './items';
 import { listReducer, IListState } from './list';
 import { searchReducer, ISearchState } from './search';
 import { pushNotificationsReducer, IPushNotifications } from './pushNotifications';
+import { authenticationReducer, AuthenticationState } from './authentication';
 
 export * from './bookmarks';
 export * from './params';
@@ -11,6 +12,7 @@ export * from './items';
 export * from './list';
 export * from './search';
 export * from './pushNotifications';
+export * from './authentication';
 
 export interface AppState {
     params: IParamsState;
@@ -19,6 +21,7 @@ export interface AppState {
     list: IListState;
     search: ISearchState;
     pushNotifications: IPushNotifications;
+    authentication: AuthenticationState;
 }
 
 export const Reducers = {
@@ -28,4 +31,5 @@ export const Reducers = {
     list: listReducer,
     search: searchReducer,
     pushNotifications: pushNotificationsReducer,
+    authentication: authenticationReducer
 }

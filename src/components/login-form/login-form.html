@@ -1,0 +1,39 @@
+<form [formGroup]="auth" (ngSubmit)="authFormOnSubmit()">
+    <ion-list>
+        <ion-item>
+            <ion-label stacked>{{ 'EMAIL' | translate }}</ion-label>
+            <ion-input type="text" formControlName="username"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>{{ 'PASSWORD' | translate }}</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="isRegisterForm">
+            <ion-label stacked>{{ 'PASSWORD2' | translate }}</ion-label>
+            <ion-input type="password"></ion-input>
+            <ion-input type="hidden" value="register" formControlName="password2"></ion-input>
+        </ion-item>
+    </ion-list>
+    <ion-list class="message-list" *ngIf="messages.length > 0">
+        <ng-container *ngFor="let message of messages">
+            <ion-item class="message-item" *ngIf="!message.removed">
+                <div item-content margin-vertical><small [innerHtml]="message.message"></small></div>
+                <button ion-button small clear item-end (click)="message.removed = true">
+                    <ion-icon name="close"></ion-icon>
+                </button>
+            </ion-item>
+        </ng-container>
+    </ion-list>
+    <div padding *ngIf="isLoginForm">
+        <button ion-button type="submit" block>{{ 'LOGIN' | translate }}</button>
+        <p text-center>
+            <a (click)="setFormType('register')">{{ 'OR_REGISTER_HERE' | translate }}</a>
+        </p>
+    </div>
+    <div padding *ngIf="isRegisterForm">
+        <button ion-button type="submit" block>{{ 'REGISTER' | translate }}</button>
+        <p text-center>
+            <a (click)="setFormType('login')">{{ 'OR_LOGIN_HERE' | translate }}</a>
+        </p>
+    </div>
+</form>
