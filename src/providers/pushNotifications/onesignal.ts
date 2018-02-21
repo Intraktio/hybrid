@@ -8,7 +8,9 @@ const log = debug('OneSignalPushNotifications');
 
 @Injectable()
 export class OneSignalPushNotifications implements IPushNotifications {
-	constructor(private oneSignal: OneSignal) {
+	constructor(
+		private oneSignal: OneSignal
+	) {
 	}
 	init() {
 		log('init');
