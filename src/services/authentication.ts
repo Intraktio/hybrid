@@ -35,12 +35,15 @@ export class AuthenticationService {
                         return Observable.throw(error.json().message);
                     })
             })
-            .subscribe(resp => {
+            .map(resp => {
                 log('resp', resp);
                 this.setAuthenticationState({token: resp.token, authenticated: true});
-            }, error => {
+                return true;
+            })
+            .catch(error => { 
                 log('error', error);
                 this.signout();
+                return false;
             })
     }
     validateAuthentication() {
