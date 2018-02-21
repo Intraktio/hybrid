@@ -43,7 +43,6 @@ export class AuthenticationService {
             .catch(error => { 
                 log('error', error);
                 this.signout();
-                return false;
             })
     }
     validateAuthentication() {
