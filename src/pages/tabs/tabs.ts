@@ -24,9 +24,7 @@ export class TabsPage {
   tabsLayout: string;
 
   list: IMenuItem[] = [];
-  menuMapping: {
-    [key: string]: Component
-  }
+  menuMapping: Object;
   @ViewChild('tabs') tabRef: Tabs;
 
   constructor(
