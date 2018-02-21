@@ -1,4 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
+import { Platform } from 'ionic-angular';
 
 import { Config } from '../config';
 
@@ -24,9 +25,10 @@ export class PushNotifications {
 
     constructor(
         public config: Config,
-        public injector: Injector
+        public injector: Injector,
+        public platform: Platform
     ) {
-        const enabled = this.config.getPushNotifications('plugin', 'enabled');
+        const enabled = this.config.getPushNotifications('enabled', false);
         if (!enabled) {
             console.warn('Push notifications not enabled.');
             return;
@@ -36,7 +38,12 @@ export class PushNotifications {
 
         switch (plugin) {
             case 'onesignal':
-                this.instance = this.injector.get(OneSignalPushNotifications);
+                if (this.platform.is('cordova')) {
+                    this.instance = this.injector.get(OneSignalPushNotifications);
+                }
+                else {
+                    console.warn('OneSignal not usable. Requires platform \'cordova\'');
+                }
             break;
             case 'push-notifications-for-wordpress':
                 this.instance = this.injector.get(PushNotificationsForWordPress);
@@ -47,7 +54,10 @@ export class PushNotifications {
     }
 
     init() {
-        console.log(this.instance);
+        if (!this.instance) {
+            console.warn('Could not enable push notifications.');
+            return;
+        }
         this.instance.init();
     }
 }
