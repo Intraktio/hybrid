@@ -33,9 +33,11 @@ export class PushNotifications {
             console.warn('Push notifications not enabled.');
             return;
         }
-        const plugin = this.config.getPushNotifications('plugin', 'onesignal');
-        log(`Selected: ${plugin}`);
+        this.selectPushNotificationsInstance(this.config.getPushNotifications('plugin', 'onesignal'));
+    }
 
+    selectPushNotificationsInstance(plugin: string) {
+        log(`Selected: ${plugin}`);
         switch (plugin) {
             case 'onesignal':
                 if (this.platform.is('cordova')) {

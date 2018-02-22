@@ -14,6 +14,10 @@ export * from './storage';
 export * from './service-worker/service-worker';
 export * from './pushNotifications';
 
+import {
+  PROVIDERS as CustomPROVIDERS
+} from '../../config/providers';
+
 export const PROVIDERS = [
   Config,
   Toast,
@@ -25,4 +29,5 @@ export const PROVIDERS = [
   ServiceWorkerProvider,
   // TODO: InAppBrowser in seperated provider class / wrapper
   InAppBrowser,
+  ...CustomPROVIDERS
 ];

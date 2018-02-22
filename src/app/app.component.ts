@@ -54,10 +54,43 @@ export class WPHC {
 
       pushNotif.init();
       swProvider.init();
-      this.statusBar.styleDefault();
+      this.initStatusBar();
+
       setTimeout(() => { // A small delay to prevent flashing
         this.splashScreen.hide();
       }, 100);
     });
   }
+
+  initStatusBar() {
+    if (this.config.getStatusBar('show', false) === false) {
+      this.statusBar.hide();
+      return;
+    }
+    this.statusBar.show();
+    this.setStatusBarStyle(this.config.getStatusBar('style', 'default'));
+    this.statusBar.overlaysWebView(this.config.getStatusBar('overlaysWebView', true));
+    let color = this.config.getStatusBar('color', null);
+    if (color !== null) {
+      this.statusBar.backgroundColorByHexString(color);
+    }
+  }
+
+  setStatusBarStyle(name: string) {
+    switch (name) {
+      case 'light':
+        this.statusBar.styleLightContent();
+        break;
+      case 'blackTranslucent':
+        this.statusBar.styleBlackTranslucent();
+        break;
+      case 'blackOpaque':
+        this.statusBar.styleBlackOpaque();
+        break;
+      case 'default':
+      default:
+        this.statusBar.styleDefault();
+    }
+  }
+
 }

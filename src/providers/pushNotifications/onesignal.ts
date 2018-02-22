@@ -29,15 +29,17 @@ export class OneSignalPushNotifications implements IPushNotifications {
 			// do something when a notification is opened
 		});
 		this.oneSignal.endInit();
+		this.register();
 	}
 	hasPermission() {
 		return this.oneSignal.getPermissionSubscriptionState();
 	}
 	register() {
 		this.oneSignal.registerForPushNotifications();
+		this.oneSignal.setSubscription(true);
 	}
 	unregister() {
-		// void
+		this.oneSignal.setSubscription(false);
 	}
 }
 
