@@ -43,6 +43,7 @@ export class AuthenticationService {
             .catch(error => { 
                 log('error', error);
                 this.signout();
+                return Observable.throw(new Error(`${ error.status } ${ error.statusText }`));
             })
     }
     validateAuthentication() {
