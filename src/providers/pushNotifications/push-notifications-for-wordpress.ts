@@ -187,4 +187,9 @@ export class PushNotificationsForWordPress implements IPushNotifications {
     //   .toPromise()
     //   .map(r => r.json());
   }
+
+  setTags(tags) {
+    // not implemented
+  }
+
 }

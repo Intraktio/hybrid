@@ -61,5 +61,14 @@ export class PushNotifications {
             return;
         }
         this.instance.init();
+	this.instance.register();
+    }
+
+    setTags(tags: any) {
+        if (!this.instance) {
+            console.warn('Push notifications not enabled.');
+            return;
+        }
+        this.instance.setTags(tags);
     }
 }

@@ -29,7 +29,6 @@ export class OneSignalPushNotifications implements IPushNotifications {
 			// do something when a notification is opened
 		});
 		this.oneSignal.endInit();
-		this.register();
 	}
 	hasPermission() {
 		return this.oneSignal.getPermissionSubscriptionState();
@@ -40,6 +39,9 @@ export class OneSignalPushNotifications implements IPushNotifications {
 	}
 	unregister() {
 		this.oneSignal.setSubscription(false);
+	}
+	setTags(tags: any) {
+		this.oneSignal.sendTags(tags);
 	}
 }
 

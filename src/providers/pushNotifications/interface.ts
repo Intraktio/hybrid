@@ -3,4 +3,5 @@ export interface IPushNotifications {
     hasPermission(): Promise<any>;
     register(): void;
     unregister(): void;
+    setTags(any): void;
 }
