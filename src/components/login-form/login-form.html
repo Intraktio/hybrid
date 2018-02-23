@@ -1,4 +1,5 @@
 <form [formGroup]="auth" (ngSubmit)="authFormOnSubmit()">
+    <ion-input type="hidden" formControlName="type"></ion-input>
     <ion-list>
         <ion-item>
             <ion-label stacked>{{ 'EMAIL' | translate }}</ion-label>
@@ -10,8 +11,7 @@
         </ion-item>
         <ion-item *ngIf="isRegisterForm">
             <ion-label stacked>{{ 'PASSWORD2' | translate }}</ion-label>
-            <ion-input type="password"></ion-input>
-            <ion-input type="hidden" value="register" formControlName="password2"></ion-input>
+            <ion-input type="password" formControlName="password2"></ion-input>
         </ion-item>
     </ion-list>
     <ion-list class="message-list" *ngIf="messages.length > 0">
