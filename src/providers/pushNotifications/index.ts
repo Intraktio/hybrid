@@ -1,9 +1,17 @@
 import { Injectable, Injector } from '@angular/core';
+import { Platform } from 'ionic-angular';
 
 import { Config } from '../config';
+
+import { IPushNotifications } from './interface';
 import { PushNotificationsForWordPress } from './push-notifications-for-wordpress';
+import { OneSignalPushNotifications } from './onesignal';
+import debug from 'debug';
 
 export * from './push-notifications-for-wordpress';
+export * from './onesignal';
+
+const log = debug('PushNotifications');
 
 /*
   Generated class for the PushNotifications provider.
@@ -13,23 +21,54 @@ export * from './push-notifications-for-wordpress';
 */
 @Injectable()
 export class PushNotifications {
-    instance: PushNotificationsForWordPress;
+    instance: IPushNotifications;
 
     constructor(
         public config: Config,
-        public injector: Injector
+        public injector: Injector,
+        public platform: Platform
     ) {
-        // const plugin = this.config.getPushNotifications('plugin', 'push-notifications-for-wordpress');
+        const enabled = this.config.getPushNotifications('enabled', false);
+        if (!enabled) {
+            console.warn('Push notifications not enabled.');
+            return;
+        }
+        this.selectPushNotificationsInstance(this.config.getPushNotifications('plugin', 'onesignal'));
+    }
 
-        // if (plugin === 'push-notifications-for-wordpress') {
-        //     this.instance = this.injector.get(PushNotificationsForWordPress, PushNotificationsForWordPress);
-        // } else {
-        //     throw new Error(`[PushNotifications] plugin "${plugin}" does not exists`);
-        // }
-
+    selectPushNotificationsInstance(plugin: string) {
+        log(`Selected: ${plugin}`);
+        switch (plugin) {
+            case 'onesignal':
+                if (this.platform.is('cordova')) {
+                    this.instance = this.injector.get(OneSignalPushNotifications);
+                }
+                else {
+                    console.warn('OneSignal not usable. Requires platform \'cordova\'');
+                }
+            break;
+            case 'push-notifications-for-wordpress':
+                this.instance = this.injector.get(PushNotificationsForWordPress);
+            break;
+            default:
+                throw new Error(`[PushNotifications] plugin "${plugin}" does not exists`);
+        }
     }
 
     init() {
-        // this.instance.init();
+        if (!this.instance) {
+            console.warn('Could not enable push notifications.');
+            return;
+        }
+        this.instance.init();
+	this.instance.register();
+    }
+
+    setTags(tags: any) {
+        if (!this.instance) {
+            console.warn('Push notifications not enabled.');
+            return;
+        }
+        this.instance.setTags(tags);
     }
 }

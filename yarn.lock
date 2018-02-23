@@ -102,6 +102,10 @@
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/in-app-browser/-/in-app-browser-3.14.0.tgz#915d09eba9e2b36a8edce831c238cc40b1771607"
 
+"@ionic-native/onesignal@^4.5.3":
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/@ionic-native/onesignal/-/onesignal-4.5.3.tgz#e4338521520fe6f743a5382c4aa8cad64ce4543a"
+
 "@ionic-native/push@^3.8.0":
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/push/-/push-3.14.0.tgz#e3353c78543bdf47f4298f37f864dd9356866f55"

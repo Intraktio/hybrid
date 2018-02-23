@@ -11,6 +11,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Push } from '@ionic-native/push';
 import { Toast } from '@ionic-native/toast';
 import { Storage } from '@ionic/storage';
+import { OneSignal } from '@ionic-native/onesignal';
 
 import {
   WpApiModule,
@@ -115,6 +116,7 @@ export function appInitializerAuthenticationFactory(auth: AuthenticationService)
     SplashScreen,
     Push,
     Toast,
+    OneSignal,
     { provide: Storage, useFactory: provideStorage },
     // { provide: Settings, useFactory: provideSettings, deps: [ Storage ] },
     // Keep this to enable Ionic's runtime error handling during development

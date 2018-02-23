@@ -1,6 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import Prism from 'prismjs';
+
+// Reason for import order: https://github.com/PrismJS/prism/issues/1181#issuecomment-331890505
 import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard';
+import Prism from 'prismjs';
 // import 'prismjs/components/prism-typescript';
 
 // syntax hightlighter
