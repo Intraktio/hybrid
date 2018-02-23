@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { WpApiPages, WpApiPosts, WpApiCustom } from 'wp-api-angular';
 import { Store } from '@ngrx/store';
 import _get from 'lodash/get';
@@ -14,6 +14,10 @@ import { AbstractItemPage } from './../abstract/ItemPage';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage({
+  name: 'Item',
+  segment: 'item/:type/:id/:options'
+})
 @Component({
   selector: 'page-item',
   templateUrl: 'item.html'

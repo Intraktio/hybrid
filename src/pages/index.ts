@@ -1,6 +1,9 @@
 import { ItemPage } from './item/item';
 import { ListPage } from './list/list';
 import { TabsPage } from './tabs/tabs';
+import { ItemPageModule } from './item/item.module';
+import { ListPageModule } from './list/list.module';
+import { TabsPageModule } from './tabs/tabs.module';
 import { SearchPage } from './search/search';
 import { ParamsPage } from './params/params';
 import { BookmarksPage } from './bookmarks/bookmarks';
@@ -8,7 +11,6 @@ import { TaxonomiesModal } from './taxonomies-modal/taxonomies-modal';
 
 import {
     MenuMapping as CustomMenuMapping,
-    DeepLinkerLnks as CustomDeepLinkerLnks,
     PAGES as CustomPAGES
 } from '../../config/pages';
 
@@ -21,7 +23,7 @@ export const MenuMapping = Object.assign({
     bookmarks: BookmarksPage,
 }, CustomMenuMapping);
 
-export const DeepLinkerLnks = [
+    /*
     { component: ItemPage, name: 'Item', segment: 'item/:type/:id' },
     { component: ItemPage, name: 'Item', segment: 'item/:type/:id/:options' },
     { component: ListPage, name: 'List', segment: 'list/:type' },
@@ -32,9 +34,10 @@ export const DeepLinkerLnks = [
     { component: BookmarksPage, name: 'Bookmarks', segment: 'bookmarks' },
     ...CustomDeepLinkerLnks
 ]
+     */
 
 export const PAGES = [
-    ItemPage,
+    // ItemPage,
     ListPage,
     TabsPage,
     ParamsPage,
@@ -42,4 +45,10 @@ export const PAGES = [
     BookmarksPage,
     TaxonomiesModal,
     ...CustomPAGES
+];
+
+export const PageMODULES = [
+    // ItemPageModule,
+    // ListPageModule,
+    // TabsPageModule,
 ];

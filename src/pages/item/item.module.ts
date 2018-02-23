@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { ListPage as Page } from './list';
+import { SharedModule } from '../../app/shared/shared.module';
+import { ItemPage as Page } from './item';
 
 @NgModule({
   declarations: [
     Page
   ],
   imports: [
+    SharedModule,
     IonicPageModule.forChild(Page)
   ],
   entryComponents: [
     Page
   ]
 })
-export class ListPageModule {}
-
+export class ItemPageModule {}

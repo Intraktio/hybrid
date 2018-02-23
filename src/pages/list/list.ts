@@ -3,7 +3,7 @@ import {
   Component, Injector,
   ComponentFactoryResolver
 } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { WpApiCustom } from 'wp-api-angular';
 import { Store } from '@ngrx/store';
 import _get from 'lodash/get';
@@ -20,6 +20,10 @@ import { AppState } from '../../reducers';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage({
+  name: 'List',
+  segment: 'list/:type/:options'
+})
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'

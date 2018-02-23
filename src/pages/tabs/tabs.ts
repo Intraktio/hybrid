@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Tabs } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Tabs } from 'ionic-angular';
 
 import { IMenuItem } from './../../components/menu-items/menu-items';
 import { MenuMapping } from './../index';
@@ -11,6 +11,10 @@ import { Config } from './../../providers';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage({
+  name: 'Tabs',
+  segment: 'tabs/:options'
+})
 @Component({
   selector: 'page-tabs',
   templateUrl: 'tabs.html'

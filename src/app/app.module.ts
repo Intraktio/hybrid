@@ -32,113 +32,23 @@ import '../i18n';
 import { WPHC } from './app.component';
 import { STORE } from '../store';
 import { COMPONENTS, DIRECTIVES } from '../components';
-import { PAGES } from '../pages';
+import { PAGES, PageMODULES } from '../pages';
 import { PROVIDERS, Config, Storage as OwnStorage, } from '../providers';
 import { PIPES } from '../pipes';
 
 import * as ionicConfig from './config/app.config.ionic';
 import { AuthenticationService } from "../services/authentication";
 
-// AoT requires an exported function for factories
-export function createTranslateLoader(http: Http) {
-  return new TranslateHttpLoader(http, './build/i18n/', '.json');
-}
-
-export function WpApiLoaderFactory(http: any, config: Config) {
-  return new WpApiStaticLoader(http, config.getApi('baseUrl', ''), config.getApi('namespace', ''));
-}
-
-export function provideStorage() {
-  return new Storage({ name: '__wphc' });
-}
-
-export function appInitializerStorageFactory(storage: OwnStorage) {
-  return function () {
-    return storage.init();
-  };
-};
-
-export function appInitializerTranslateFactory(translate: TranslateService, injector: Injector, config: Config) {
-  return () => new Promise<any>((resolve: any) => {
-    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
-    locationInitialized.then(() => {
-      const defaultLanguage = config.get('defaultLanguage');
-      const language = config.get('language');
-      const browserLanguage = translate.getBrowserLang()
-      translate.setDefaultLang(defaultLanguage);
-      const userLanguage = language || browserLanguage || defaultLanguage;
-      translate.use(userLanguage).subscribe(() => {
-        console.info(`Successfully initialized '${userLanguage}' language.'`);
-      }, err => {
-        console.error(`Problem with '${userLanguage}' language initialization.'`);
-      }, () => {
-        resolve(null);
-      });
-    });
-  });
-};
-
-export function appInitializerAuthenticationFactory(auth: AuthenticationService) {
-  return function () {
-    auth.isAuthenticated();
-  }
-}
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [...COMPONENTS, ...PAGES, WPHC, ...PIPES, ...DIRECTIVES],
+  declarations: [WPHC],
   imports: [
     BrowserModule,
-    HttpModule,
-    BrowserAnimationsModule,
-    IonicModule.forRoot(WPHC, ionicConfig.config, ionicConfig.deepLinkConfig),
-    ...STORE,
-    WpApiModule.forRoot({
-      provide: WpApiLoader,
-      useFactory: (WpApiLoaderFactory),
-      deps: [Http, Config]
-    }),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-      }
-    }),
-    MomentModule,
-    ServiceWorkerModule,
+    SharedModule,
+    IonicModule.forRoot(WPHC, ionicConfig.config),
   ],
   bootstrap: [IonicApp],
-  entryComponents: [...COMPONENTS, ...PAGES, WPHC],
-  providers: [
-    // Storage,
-    ...PROVIDERS,
-    StatusBar,
-    SplashScreen,
-    Push,
-    Toast,
-    OneSignal,
-    { provide: Storage, useFactory: provideStorage },
-    // { provide: Settings, useFactory: provideSettings, deps: [ Storage ] },
-    // Keep this to enable Ionic's runtime error handling during development
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerStorageFactory,
-      deps: [OwnStorage],
-      multi: true
-    }, {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerTranslateFactory,
-      deps: [TranslateService, Injector, Config],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerAuthenticationFactory,
-      deps: [AuthenticationService],
-      multi: true
-    },
-    AuthenticationService
-  ]
+  entryComponents: [WPHC],
 })
 export class AppModule { }

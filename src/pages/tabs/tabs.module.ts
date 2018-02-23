@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { ListPage as Page } from './list';
+import { TabsPage as Page } from './tabs';
 
 @NgModule({
   declarations: [
@@ -13,5 +13,5 @@ import { ListPage as Page } from './list';
     Page
   ]
 })
-export class ListPageModule {}
+export class TabsPageModule {}
 
