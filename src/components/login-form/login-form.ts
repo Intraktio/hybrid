@@ -117,8 +117,7 @@ export class LoginFormComponent {
             username: this.auth.value.username,
             password: this.auth.value.password,
         })
-            .map(response => response.json())
-            .catch(error => error)
+            .map( response => response.json())
             .subscribe(json => {
                 log('Got session', json);
                 this.wpApiAuth.saveSession(json);
