@@ -1,7 +1,9 @@
+let customConfig = require('./../config/copy.js');
+
 // this is a custom dictionary to make it easy to extend/override
 // provide a name for an entry, it can be anything such as 'copyAssets' or 'copyFonts'
 // then provide an object with a `src` array of globs and a `dest` string
-module.exports = {
+module.exports = Object.assign({
   copyAssets: {
     src: ['{{ROOT}}/config/assets/**/*'],
     dest: '{{WWW}}/assets'
@@ -22,4 +24,5 @@ module.exports = {
   //   src: ['{{ROOT}}/node_modules/sw-toolbox/sw-toolbox.js'],
   //   dest: '{{BUILD}}'
   // }
-}
+}, customConfig);
+
