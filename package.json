@@ -123,7 +123,7 @@
   "config": {
     "ionic_source_map_type": "eval",
     "ionic_webpack": "./build/config.js",
-    "ionic_copy": "./config/copy.js",
+    "ionic_copy": "./build/copy.js",
     "ionic_watch": "./config/watch.config.js",
     "ionic_sass": "./build/sass.config.js"
   }
