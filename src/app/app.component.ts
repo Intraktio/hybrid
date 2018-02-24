@@ -1,8 +1,10 @@
 import { Store } from '@ngrx/store';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, HostListener } from '@angular/core';
 import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+
 import debug from 'debug';
 
 import { AppState, IParamsState } from './../reducers';
@@ -24,6 +26,19 @@ export class WPHC {
   @ViewChild(Nav) nav: Nav;
   title: string
 
+  @HostListener('document:click', ['$event']) openLinksInAppBrowser(evt: any) {
+    evt = evt ||  window.event;
+    var elem = evt.target || evt.srcElement;
+    while (elem) {
+      if (elem.href) {
+        window.openIab(elem.href, '_blank', 'location=yes');
+        evt.preventDefault();
+        return false;
+      }
+      elem = elem.parentNode;
+    }
+  }
+
   constructor(
     public platform: Platform,
     public store: Store<AppState>,
@@ -33,6 +48,7 @@ export class WPHC {
     public statusBar: StatusBar,
     public storage: Storage,
     public swProvider: ServiceWorkerProvider,
+    public iab: InAppBrowser,
   ) {
     const appNode: any = document.querySelector('ion-app');
 
@@ -60,6 +76,10 @@ export class WPHC {
         this.splashScreen.hide();
       }, 100);
     });
+  }
+
+  ngOnInit() {
+    window.openIab = (href, params, opts) => this.iab.create(href, params, opts);
   }
 
   initStatusBar() {
