@@ -1,5 +1,6 @@
 // TODO: Better debugging.
 
+import { Observable } from 'rxjs';
 import { Component, Input } from '@angular/core';
 import { Headers } from '@angular/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -102,7 +103,8 @@ export class LoginFormComponent {
                 log(json);
                 this.formType = TYPE_LOGIN;
                 this.onSuccess && this.onSuccess(TYPE_REGISTER, json);
-            }, error => {
+            }, errorResponse => {
+                let error = errorResponse.json();
                 log("error", error);
                 this.messages.push({
                     type: 'error',
@@ -117,7 +119,7 @@ export class LoginFormComponent {
             username: this.auth.value.username,
             password: this.auth.value.password,
         })
-            .map( response => response.json())
+            .map(response => response.json())
             .subscribe(json => {
                 log('Got session', json);
                 this.wpApiAuth.saveSession(json);
@@ -127,7 +129,8 @@ export class LoginFormComponent {
                     email: json.user_email
                 }));
                 this.onSuccess && this.onSuccess(TYPE_LOGIN, json);
-            }, error => {
+            }, errorResponse => {
+                let error = errorResponse.json();
                 log("error", error);
                 this.messages.push({
                     type: 'error',
