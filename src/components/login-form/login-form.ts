@@ -106,7 +106,7 @@ export class LoginFormComponent {
                 log("error", error);
                 this.messages.push({
                     type: 'error',
-                    message: JSON.parse(error._body).message
+                    message: error.message
                 });
                 this.onError && this.onError(TYPE_REGISTER, error);
             });
@@ -131,7 +131,7 @@ export class LoginFormComponent {
                 log("error", error);
                 this.messages.push({
                     type: 'error',
-                    message: JSON.parse(error._body).message
+                    message: error.message
                 });
                 this.onError && this.onError(TYPE_LOGIN, error);
             })
