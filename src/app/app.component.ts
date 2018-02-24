@@ -19,6 +19,18 @@ if (__DEV__) {
   debug.disable();
 }
 
+/**
+ * Class for proxying global window object.
+ */
+class Win {
+  static set openIab(openIab: Function) {
+    window['openIab'] = openIab;
+  }
+  static get openIab(): Function {
+    return window['openIab'];
+  }
+}
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -31,7 +43,7 @@ export class WPHC {
     var elem = evt.target || evt.srcElement;
     while (elem) {
       if (elem.href) {
-        window.openIab(elem.href, '_blank', 'location=yes');
+        Win.openIab(elem.href, '_blank', 'location=yes');
         evt.preventDefault();
         return false;
       }
@@ -79,7 +91,7 @@ export class WPHC {
   }
 
   ngOnInit() {
-    window.openIab = (href, params, opts) => this.iab.create(href, params, opts);
+    Win.openIab = (href, params, opts) => this.iab.create(href, params, opts);
   }
 
   initStatusBar() {
