@@ -32,7 +32,7 @@
     "build:pwa": "./scripts/buildPWA.sh",
     "buildAndRun:pwa": "./scripts/buildPWAAndRun.sh",
     "ionic:serve": "ionic-app-scripts serve",
-    "ionic:build": "ionic-app-scripts build",
+    "ionic:build": "HYBRID_ENV=prod ionic-app-scripts build --no-minifyJs --minifyCss --optimizeJs",
     "postinstall": "npm run installWPHC",
     "installWPHC": "cd scripts && node ./install.js",
     "report:dependencies": "./scripts/dependencyReport.sh"
