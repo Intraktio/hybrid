@@ -1,0 +1,7 @@
+/**
+ * normalize.css v3.0.2 sets max-width: 100% but not height value.
+ * Add height auto to keep aspect ratio.
+ */
+img {
+  height: auto;
+}
