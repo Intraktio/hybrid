@@ -33,6 +33,7 @@ export class AbstractListPage {
     shouldRetry: boolean = false;
     init: boolean = false;
     page: number = 1;
+    totalPages: number = 1;
     perPage: number;
     store$: Observable<any>;
     stream$: Observable<any>;
