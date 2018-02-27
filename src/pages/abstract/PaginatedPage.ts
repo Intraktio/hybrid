@@ -131,6 +131,12 @@ export class AbstractListPage {
     public fetch(): Observable<any> {
         const currentPage = this.getCurrentPage();
         const nextPage = currentPage + 1;
+        if (nextPage > this.totalPages) {
+            this.init = true;
+            this.shouldRetry = false;
+            this.isPaginationEnabled = false;
+            return;
+        }
         const searchParams = Object.assign({
             per_page: this.perPage,
         }, this.getQuery(), {
@@ -157,6 +163,7 @@ export class AbstractListPage {
                     list: r.json()
                 };
                 this.page = nextPage;
+                this.totalPages = totalPages;
                 this.init = true;
                 this.isPaginationEnabled = true;
                 this.onLoad(response);
