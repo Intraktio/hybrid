@@ -8,7 +8,7 @@ export const addList = (itemType, query, payload): Action => ({
     payload: Object.assign(payload, { itemType, query })
 })
 
-export const cleanList = (itemType): Action => ({
+export const cleanList = (itemType, query): Action => ({
     type: CLEAN_LIST,
-    payload: { itemType }
+    payload: { itemType, query }
 })
