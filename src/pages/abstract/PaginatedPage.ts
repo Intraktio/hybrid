@@ -131,7 +131,6 @@ export class AbstractListPage {
     }
 
     public fetch(): Observable<any> {
-        debugger;
         const currentPage = this.getCurrentPage();
         const nextPage = currentPage + 1;
         if (nextPage > this.totalPages) {
@@ -192,8 +191,8 @@ export class AbstractListPage {
     }
 
     doRefresh(refresher: Refresher): void {
+        log('[ListPage] doRefresh');
         this.onClean();
-        this.doInit();
         this.fetch().first().subscribe(() => refresher.complete(), (error) => refresher.complete());
     }
 
