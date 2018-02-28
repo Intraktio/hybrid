@@ -88,7 +88,7 @@ export class ListPage extends AbstractListPage implements IListPage {
   }
 
   onClean() {
-    this.store.dispatch(cleanList(this.type));
+    this.store.dispatch(cleanList(this.type, this.options.query));
   }
 
   getTitle() {

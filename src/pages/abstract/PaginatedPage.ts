@@ -64,6 +64,7 @@ export class AbstractListPage {
         this.init = false;
         this.isPaginationEnabled = true;
         this.page = 1;
+        this.totalPages = 1;
     }
 
     // @TODO: remove when fixed: https://github.com/driftyco/ionic/issues/9209
@@ -136,7 +137,10 @@ export class AbstractListPage {
             this.init = true;
             this.shouldRetry = false;
             this.isPaginationEnabled = false;
-            return;
+            return Observable.of({
+                page: this.page,
+                totalPages: this.totalPages
+            });
         }
         const searchParams = Object.assign({
             per_page: this.perPage,
@@ -187,6 +191,7 @@ export class AbstractListPage {
     }
 
     doRefresh(refresher: Refresher): void {
+        log('[ListPage] doRefresh');
         this.onClean();
         this.fetch().first().subscribe(() => refresher.complete(), (error) => refresher.complete());
     }
@@ -194,7 +199,6 @@ export class AbstractListPage {
     doInfinite(infiniteScroll: InfiniteScroll): void {
         log('[ListPage] doInfinite');
         const currentPage = this.getCurrentPage();
-        console.log(this.page, currentPage);
 
         if (this.page < currentPage) {
             this.page += 1;
