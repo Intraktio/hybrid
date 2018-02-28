@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, APP_INITIALIZER, Injector } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER, LOCALE_ID, Injector } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,6 +40,18 @@ import { PIPES } from '../pipes';
 import * as ionicConfig from './config/app.config.ionic';
 import { AuthenticationService } from "../services/authentication";
 
+function getUserLanguage(config: Config, translate: TranslateService = null) {
+  const defaultLanguage = config.get('defaultLanguage');
+  const language = config.get('language');
+  if (translate !== null) {
+    const browserLanguage = translate.getBrowserLang()
+    translate.setDefaultLang(defaultLanguage);
+    return language || browserLanguage || defaultLanguage;
+  }
+  const userLanguage = language || defaultLanguage;
+  return userLanguage;
+}
+
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './build/i18n/', '.json');
@@ -59,15 +71,15 @@ export function appInitializerStorageFactory(storage: OwnStorage) {
   };
 };
 
+export function localeIdFactory(config: Config) {
+  return getUserLanguage(config);
+}
+
 export function appInitializerTranslateFactory(translate: TranslateService, injector: Injector, config: Config) {
   return () => new Promise<any>((resolve: any) => {
     const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
     locationInitialized.then(() => {
-      const defaultLanguage = config.get('defaultLanguage');
-      const language = config.get('language');
-      const browserLanguage = translate.getBrowserLang()
-      translate.setDefaultLang(defaultLanguage);
-      const userLanguage = language || browserLanguage || defaultLanguage;
+      const userLanguage = getUserLanguage(config);
       translate.use(userLanguage).subscribe(() => {
         console.info(`Successfully initialized '${userLanguage}' language.'`);
       }, err => {
@@ -123,6 +135,7 @@ export function appInitializerAuthenticationFactory(auth: AuthenticationService)
     // { provide: Settings, useFactory: provideSettings, deps: [ Storage ] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    { provide: LOCALE_ID, useFactory: localeIdFactory, deps: [Config] },
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerStorageFactory,
