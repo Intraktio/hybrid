@@ -103,6 +103,7 @@ export class LoginFormComponent {
                 log(json);
                 this.formType = TYPE_LOGIN;
                 this.onSuccess && this.onSuccess(TYPE_REGISTER, json);
+                this.login();
             }, errorResponse => {
                 let error = errorResponse.json();
                 log("error", error);
