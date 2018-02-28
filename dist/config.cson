@@ -35,6 +35,10 @@ toast:
     duration: 3000
     position: 'bottom' # Accepted values: "top", "middle", "bottom".
 
+inAppBrowser:
+    defaultForLinks: false
+    options: 'location=yes'
+
 api:
     baseUrl: 'https://dev.julienrenaux.fr/wp-json'
     namespace: '/wp/v2'

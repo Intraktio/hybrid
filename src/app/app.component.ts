@@ -38,19 +38,6 @@ export class WPHC {
   @ViewChild(Nav) nav: Nav;
   title: string
 
-  @HostListener('document:click', ['$event']) openLinksInAppBrowser(evt: any) {
-    evt = evt ||  window.event;
-    var elem = evt.target || evt.srcElement;
-    while (elem) {
-      if (elem.href) {
-        Win.openIab(elem.href, '_blank', 'location=yes');
-        evt.preventDefault();
-        return false;
-      }
-      elem = elem.parentNode;
-    }
-  }
-
   constructor(
     public platform: Platform,
     public store: Store<AppState>,
@@ -88,6 +75,23 @@ export class WPHC {
         this.splashScreen.hide();
       }, 100);
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  openLinksInAppBrowser(evt: any) {
+    if (!this.config.get('inAppBrowser.defaultForLinks', false)) {
+      return;
+    }
+    evt = evt ||  window.event;
+    var elem = evt.target || evt.srcElement;
+    while (elem) {
+      if (elem.href) {
+        Win.openIab(elem.href, '_blank', this.config.get('inAppBrowser.options', 'location=yes'));
+        evt.preventDefault();
+        return false;
+      }
+      elem = elem.parentNode;
+    }
   }
 
   ngOnInit() {
