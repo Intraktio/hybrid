@@ -85,7 +85,7 @@ export class WPHC {
     var elem = evt.target || evt.srcElement;
     while (elem) {
       if (elem.href) {
-        Win.openIab(elem.href, elem.target);
+        Win.openIab(elem.getAttribute('href'), elem.getAttribute('target'));
         evt.preventDefault();
         return false;
       }
