@@ -8,7 +8,7 @@ BUILDFOLDER=www/
 rm -fr $BUILDFOLDER
  
 # Prod build
-HYBRID_ENV=prod
+export HYBRID_ENV=prod
 ionic-app-scripts build --no-minifyJs --minifyCss --optimizeJs \
 # ionic-app-scripts build --prod \
                         --wwwDir $BUILDFOLDER
