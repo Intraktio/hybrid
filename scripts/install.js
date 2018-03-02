@@ -7,6 +7,7 @@ console.log("Starting WordPress Hybrid Client Installation");
 console.log("=============================================");
 
 copy('../dist/config.cson', '../config/config.cson');
+copy('../dist/config.dev.cson', '../config/config.dev.cson');
 copy('../dist/menu.json', '../config/menu.json');
 copy('../dist/config.xml', '../config.xml');
 copy('../dist/ionic.config.json', '../ionic.config.json');
