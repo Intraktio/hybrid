@@ -3,12 +3,11 @@ import { Component, ViewChild, HostListener } from '@angular/core';
 import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import debug from 'debug';
 
 import { AppState, IParamsState } from './../reducers';
-import { Config, PushNotifications, Storage, ServiceWorkerProvider } from './../providers';
+import { Config, PushNotifications, Storage, ServiceWorkerProvider, InAppBrowser } from './../providers';
 import { MenuMapping } from './../pages';
 
 const log = debug('App');
@@ -82,11 +81,11 @@ export class WPHC {
     if (!this.config.get('inAppBrowser.defaultForLinks', false)) {
       return;
     }
-    evt = evt ||  window.event;
+    evt = evt || window.event;
     var elem = evt.target || evt.srcElement;
     while (elem) {
       if (elem.href) {
-        Win.openIab(elem.href, '_blank', this.config.get('inAppBrowser.options', 'location=yes'));
+        Win.openIab(elem.href, elem.target);
         evt.preventDefault();
         return false;
       }
@@ -95,7 +94,7 @@ export class WPHC {
   }
 
   ngOnInit() {
-    Win.openIab = (href, params, opts) => this.iab.create(href, params, opts);
+    Win.openIab = (href, params:string='', opts:string=null) => this.iab.create(href, params, opts);
   }
 
   initStatusBar() {

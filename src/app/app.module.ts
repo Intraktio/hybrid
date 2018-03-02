@@ -13,6 +13,7 @@ import { Toast } from '@ionic-native/toast';
 import { Storage } from '@ionic/storage';
 import { OneSignal } from '@ionic-native/onesignal';
 import { AppVersion } from '@ionic-native/app-version';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import {
   WpApiModule,
@@ -131,6 +132,7 @@ export function appInitializerAuthenticationFactory(auth: AuthenticationService)
     Toast,
     OneSignal,
     AppVersion,
+    InAppBrowser,
     { provide: Storage, useFactory: provideStorage },
     // { provide: Settings, useFactory: provideSettings, deps: [ Storage ] },
     // Keep this to enable Ionic's runtime error handling during development

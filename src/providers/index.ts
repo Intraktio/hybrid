@@ -4,8 +4,7 @@ import { Menu } from './menu';
 import { Storage } from './storage';
 import { ServiceWorkerProvider } from './service-worker/service-worker';
 import { PushNotifications, PushNotificationsForWordPress, OneSignalPushNotifications } from './pushNotifications';
-
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { InAppBrowser } from './iab';
 
 export * from './config';
 export * from './toast';
@@ -13,6 +12,7 @@ export * from './menu';
 export * from './storage';
 export * from './service-worker/service-worker';
 export * from './pushNotifications';
+export * from './iab';
 
 import {
   PROVIDERS as CustomPROVIDERS
@@ -27,7 +27,6 @@ export const PROVIDERS = [
   PushNotificationsForWordPress,
   OneSignalPushNotifications,
   ServiceWorkerProvider,
-  // TODO: InAppBrowser in seperated provider class / wrapper
   InAppBrowser,
   ...CustomPROVIDERS
 ];
