@@ -14,9 +14,12 @@ export class InAppBrowser {
         public iabNative: NativeInAppBrowser,
     ) { }
 
-    create(href, target:string='_blank', opts:string=null) {
+    create(href, target:string=null, opts:string=null) {
         if (opts === null) {
             opts = this.config.get('inAppBrowser.options', 'location=yes')
+        }
+        if (target === null) {
+            target = this.config.get('inAppBrowser.target', '_blank');
         }
         return this.iabNative.create(href, target, opts);
     }

@@ -37,7 +37,8 @@ toast:
 
 inAppBrowser:
     defaultForLinks: false
-    options: 'location=yes'
+    target: '_blank' # default target for links (default: _blank)
+    options: 'location=yes' # default options for iab (default: location=yes)
 
 api:
     baseUrl: 'https://dev.julienrenaux.fr/wp-json'
