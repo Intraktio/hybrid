@@ -171,6 +171,22 @@ export class AbstractListPage {
                 this.totalPages = totalPages;
                 this.init = true;
                 this.isPaginationEnabled = true;
+                this.stream$.take(this.perPage).subscribe((items) => {
+                    console.log('items in store: ', items);
+                    console.log('response', response.list);
+                    let listsAreSame = true;
+                    for (let i=0; i<25; i++) {
+                        if (response.list[i].id !== items[i].id) {
+                            listsAreSame = false;
+                            break;
+                        }
+                    }
+                    if (listsAreSame === false) {
+                        console.log('Must update the store! ');
+                    } else {
+                        console.log('No need to update the store! ')
+                    }
+                });
                 this.onLoad(response);
                 this.updateItemsToDisplay();
                 return response;
