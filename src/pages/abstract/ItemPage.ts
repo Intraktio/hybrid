@@ -73,7 +73,8 @@ export class AbstractItemPage {
                 return this.service.get(this.navParams.get('id'), { search: uRLSearchParams })
             }
             else {
-                uRLSearchParams.set('slug', this.navParams.get('id'));
+                let slug = this.navParams.get('id');
+                uRLSearchParams.set('slug', slug);
                 uRLSearchParams.set('per_page', '1');
                 uRLSearchParams.set('full', '1');
                 return this.service.getList({ search: uRLSearchParams })
@@ -89,6 +90,7 @@ export class AbstractItemPage {
                 if (json instanceof Array) {
                     json = json[0];
                 }
+                this.navParams.data['id'] = json.id;
                 this.onLoad(json)
             })
             .catch(res => {

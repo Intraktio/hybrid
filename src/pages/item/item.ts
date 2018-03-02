@@ -47,6 +47,7 @@ export class ItemPage extends AbstractItemPage {
   }
 
   onLoad(item) {
+    console.log(`[ItemPage] onLoad (type: ${item.type})`);
     item._full = true;
     item._indexes = ['slug'];
     this.store.dispatch(addItem(this.type, item));
