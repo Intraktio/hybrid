@@ -4,6 +4,7 @@ import { isNumeric } from "rxjs/util/isNumeric";
 import { Refresher, NavParams } from 'ionic-angular';
 import { URLSearchParams } from '@angular/http';
 import { Injector } from '@angular/core';
+import _get from 'lodash/get';
 
 import { Toast, Config } from './../../providers';
 
@@ -55,7 +56,11 @@ export class AbstractItemPage {
     onLoad(data: Object) { }
 
     private getQuery(): Object {
-        return this.config.get(`[${this.type}].query`, {})
+        return Object.assign(
+            {},
+            this.config.get(`[${this.type}].query`, {}),
+            _get(this.navParams.get('options'), 'query', {})
+        );
     }
 
     private fetch(): Observable<any> {

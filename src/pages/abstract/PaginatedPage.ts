@@ -193,6 +193,7 @@ export class AbstractListPage {
     doRefresh(refresher: Refresher): void {
         log('[ListPage] doRefresh');
         this.onClean();
+        this.init = false;
         this.fetch().first().subscribe(() => refresher.complete(), (error) => refresher.complete());
     }
 
