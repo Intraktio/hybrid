@@ -180,10 +180,10 @@ export class AbstractListPage {
                 if (json.code === 'rest_post_invalid_page_number') {
                     return res;
                 }
-                this.init = true;
+                this.init = false;
                 this.shouldRetry = true;
                 this.isPaginationEnabled = false;
-                this.toast.show(this.translate.instant('error'));
+                this.toast.show(this.translate.instant('ERROR'));
 
                 log("[ListPage] error", res);
                 return res;

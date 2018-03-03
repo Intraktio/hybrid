@@ -94,9 +94,9 @@ export class AbstractItemPage {
                 this.onLoad(json)
             })
             .catch(res => {
-                this.init = true;
+                this.init = false;
                 this.shouldRetry = true;
-                this.toast.show(this.translate.instant('error'));
+                this.toast.show(this.translate.instant('ERROR'));
                 return res;
             });
     }
