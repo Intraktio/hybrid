@@ -9,7 +9,7 @@ rm -fr $BUILDFOLDER
  
 # Prod build
 export HYBRID_ENV=prod
-ionic-app-scripts build --minifyJs --minifyCss --optimizeJs \
+ionic-app-scripts build --no-minifyJs --minifyCss --optimizeJs \
 # ionic-app-scripts build --prod \
                         --wwwDir $BUILDFOLDER
  
