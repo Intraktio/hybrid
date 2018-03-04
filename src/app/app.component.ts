@@ -87,6 +87,7 @@ export class WPHC {
       if (elem.href) {
         Win.openIab(elem.getAttribute('href'), elem.getAttribute('target'));
         evt.preventDefault();
+        evt.stopPropagation();
         return false;
       }
       elem = elem.parentNode;
