@@ -6,7 +6,8 @@ import debug from 'debug';
 import defaultConfig from '../config.default.cson';
 
 const configOverwrite = require(`${__CONFIG_FOLDER__}/config.cson`);
-const devConfigOverwrite = __DEV__ ? require(`${__CONFIG_FOLDER__}/config.dev.cson`) : {};
+//const devConfigOverwrite = __DEV__ ? require(`${__CONFIG_FOLDER__}/config.dev.cson`) : {};
+const devConfigOverwrite = {};
 
 const log = debug('Config');
 

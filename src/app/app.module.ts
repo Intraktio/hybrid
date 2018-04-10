@@ -34,23 +34,21 @@ import '../i18n';
 import { WPHC } from './app.component';
 import { STORE } from '../store';
 import { COMPONENTS, DIRECTIVES } from '../components';
-import { PAGES } from '../pages';
+import { PAGES, DeepLinkerLnks } from '../pages';
 import { PROVIDERS, Config, Storage as OwnStorage, } from '../providers';
 import { PIPES } from '../pipes';
 
-import * as ionicConfig from './config/app.config.ionic';
 import { AuthenticationService } from "../services/authentication";
 
 function getUserLanguage(config: Config, translate: TranslateService = null) {
-  const defaultLanguage = config.get('defaultLanguage');
   const language = config.get('language');
   if (translate !== null) {
     const browserLanguage = translate.getBrowserLang()
+    const defaultLanguage = language.default || browserLanguage || 'en';
     translate.setDefaultLang(defaultLanguage);
-    return language || browserLanguage || defaultLanguage;
+    return defaultLanguage;
   }
-  const userLanguage = language || defaultLanguage;
-  return userLanguage;
+  return language.default || 'en';
 }
 
 // AoT requires an exported function for factories
@@ -104,7 +102,9 @@ export function appInitializerAuthenticationFactory(auth: AuthenticationService)
     BrowserModule,
     HttpModule,
     BrowserAnimationsModule,
-    IonicModule.forRoot(WPHC, ionicConfig.config, ionicConfig.deepLinkConfig),
+    IonicModule.forRoot(WPHC, {}, {
+      links: DeepLinkerLnks
+    }),
     ...STORE,
     WpApiModule.forRoot({
       provide: WpApiLoader,

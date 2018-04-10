@@ -1,4 +1,7 @@
-let customConfig = require('./../config/copy.js');
+let customConfig = {};
+try {
+  customConfig = require('./../config/copy.js');
+} catch (e) {}
 
 // this is a custom dictionary to make it easy to extend/override
 // provide a name for an entry, it can be anything such as 'copyAssets' or 'copyFonts'

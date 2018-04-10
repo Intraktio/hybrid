@@ -16,3 +16,5 @@ export const COMPONENTS = [
     MovieItemComponent,
     ActorListComponent,
 ]
+
+export const DIRECTIVES = []
