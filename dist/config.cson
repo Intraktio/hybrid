@@ -103,6 +103,9 @@ storage:
     enabled: true
     pagesToStore: 1
 
+network:
+    required: false
+
 ###
  NATIVE SECTION
 ###

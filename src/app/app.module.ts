@@ -14,6 +14,7 @@ import { Storage } from '@ionic/storage';
 import { OneSignal } from '@ionic-native/onesignal';
 import { AppVersion } from '@ionic-native/app-version';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Network } from '@ionic-native/network';
 
 import {
   WpApiModule,
@@ -39,6 +40,7 @@ import { PROVIDERS, Config, Storage as OwnStorage, } from '../providers';
 import { PIPES } from '../pipes';
 
 import { AuthenticationService } from "../services/authentication";
+import { NetworkNotifierService } from "../services/network-notifier";
 
 function getUserLanguage(config: Config, translate: TranslateService = null) {
   const language = config.get('language');
@@ -133,6 +135,7 @@ export function appInitializerAuthenticationFactory(auth: AuthenticationService)
     OneSignal,
     AppVersion,
     InAppBrowser,
+    Network,
     { provide: Storage, useFactory: provideStorage },
     // { provide: Settings, useFactory: provideSettings, deps: [ Storage ] },
     // Keep this to enable Ionic's runtime error handling during development
@@ -155,7 +158,8 @@ export function appInitializerAuthenticationFactory(auth: AuthenticationService)
       deps: [AuthenticationService],
       multi: true
     },
-    AuthenticationService
+    AuthenticationService,
+    NetworkNotifierService,
   ]
 })
 export class AppModule { }
