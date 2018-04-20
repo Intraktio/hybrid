@@ -15,26 +15,24 @@ export class NetworkNotifierService {
         public alertCtrl: AlertController,
         private network: Network,
         private translate: TranslateService
-    ) {}
-
-    ngOnInit() {
-        this.listenNetworkChanges();
+    ) {
     }
 
     listenNetworkChanges() {
+        log('LISTENING TO NETWORK CHANGES!');
         this.network.onDisconnect().subscribe(() => {
-            console.log('network disconnected');
+            log('network disconnected');
             this.isOffline = true;
             this.showNetworkLostAlert();
         });
         this.network.onConnect().subscribe(() => {
-            console.log('network connected');
+            log('network connected');
             this.isOffline = false;
             // We just got a connection but we need to wait briefly
             // before we determine the connection type. Might need to wait
             // prior to doing any api requests as well.
             setTimeout(() => {
-                console.log('network type is ' + this.network.type);
+                log('network type is ' + this.network.type);
             }, 3000);
         });
     }

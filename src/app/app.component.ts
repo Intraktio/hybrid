@@ -9,6 +9,7 @@ import debug from 'debug';
 import { AppState, IParamsState } from './../reducers';
 import { Config, PushNotifications, Storage, ServiceWorkerProvider, InAppBrowser } from './../providers';
 import { MenuMapping } from './../pages';
+import { NetworkNotifierService } from "../services/network-notifier";
 
 const log = debug('App');
 
@@ -47,6 +48,7 @@ export class WPHC {
     public storage: Storage,
     public swProvider: ServiceWorkerProvider,
     public iab: InAppBrowser,
+    public network: NetworkNotifierService
   ) {
     const appNode: any = document.querySelector('ion-app');
 

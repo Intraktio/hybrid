@@ -98,6 +98,12 @@ export function appInitializerAuthenticationFactory(auth: AuthenticationService)
   }
 }
 
+export function appInitializerNetworkFactory(network: NetworkNotifierService) {
+  return function () {
+    network.listenNetworkChanges();
+  }
+}
+
 @NgModule({
   declarations: [...COMPONENTS, ...PAGES, WPHC, ...PIPES, ...DIRECTIVES],
   imports: [
@@ -157,9 +163,14 @@ export function appInitializerAuthenticationFactory(auth: AuthenticationService)
       useFactory: appInitializerAuthenticationFactory,
       deps: [AuthenticationService],
       multi: true
+    },{
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerNetworkFactory,
+      deps: [ NetworkNotifierService ],
+      multi: true
     },
     AuthenticationService,
-    NetworkNotifierService,
+    NetworkNotifierService
   ]
 })
 export class AppModule { }
