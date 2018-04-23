@@ -31,6 +31,7 @@ export class Config {
     getToast = (path = '', otherwise = undefined) => this.get(`toast.${path}`, otherwise);
     getTabs = (path = '', otherwise = undefined) => this.get(`tabs.${path}`, otherwise);
     getSearch = (path = '', otherwise = undefined) => this.get(`search.${path}`, otherwise);
+    getNetwork = (path = '', otherwise = undefined) => this.get(`network.${path}`, otherwise);
     getStatusBar = (path = '', otherwise = undefined) => this.get(`statusBar.${path}`, otherwise);
     getItemComponent = (path = '', otherwise = undefined) => this.get(`components.item.${path}`, otherwise);
     getListComponent = (path = '', otherwise = undefined) => this.get(`components.list.${path}`, otherwise);

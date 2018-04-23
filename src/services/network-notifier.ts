@@ -2,7 +2,7 @@ import { Network } from '@ionic-native/network';
 import { Injectable } from "@angular/core";
 import { AlertController, Alert } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
-import { Toast } from '../providers/toast'
+import { Config, Toast } from '../providers'
 import debug from 'debug';
 
 const log = debug('NetworkNotifierService');
@@ -14,6 +14,7 @@ export class NetworkNotifierService {
     networkLostAlert: Alert = null;
 
     constructor(
+        public config: Config,
         public alertCtrl: AlertController,
         private network: Network,
         private translate: TranslateService,
@@ -22,10 +23,20 @@ export class NetworkNotifierService {
     }
 
     listenNetworkChanges() {
-        this.network.onDisconnect().subscribe(() => {
-            this.isOffline = true;
-            this.presentNetworkLostAlert();
-        });
+        if (this.config.getNetwork('required', false)) {
+            // If network is required, show alert on connection lost
+            this.network.onDisconnect().subscribe(() => {
+                this.isOffline = true;
+                this.presentNetworkLostAlert();
+            });
+        }
+        else {
+            // If network not required, toast about connection lost
+            this.network.onDisconnect().subscribe(() => {
+                this.isOffline = true;
+                this.toast.show(this.translate.instant('NO_INTERNET_CONNECTION'));
+            });
+        }
         this.network.onConnect().subscribe(() => {
             this.isOffline = false;
             this.dismissNetworkLostAlert();
