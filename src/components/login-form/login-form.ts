@@ -10,6 +10,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from "../../../src/reducers/index";
 import { setAuthentication } from '../../actions';
 import debug from 'debug';
+import { LoadingController } from "ionic-angular";
+import { TranslateService } from "@ngx-translate/core";
 
 const log = debug('LoginFormComponent');
 
@@ -44,6 +46,8 @@ export class LoginFormComponent {
         private wpApiAuth: WpApiAuth,
         private wpApiUsers: WpApiUsers,
         private store: Store<AppState>,
+        private loadingController: LoadingController,
+        private translate: TranslateService
     ) {
         this.registrationUrl = this.config.get('registrationUrl');
         this.auth = this.formBuilder.group({
@@ -88,6 +92,8 @@ export class LoginFormComponent {
 
     register() {
         log('register');
+        const alert = this.createLoadingAlert(this.translate.instant('REGISTERING_USER'));
+        alert.present();
         this.wpApiUsers.create({
             user_login: this.auth.value.username,
             user_email: this.auth.value.username,
@@ -103,6 +109,7 @@ export class LoginFormComponent {
                 this.formType = TYPE_LOGIN;
                 this.onSuccess && this.onSuccess(TYPE_REGISTER, json);
                 this.login();
+                alert.dismiss();
             }, errorResponse => {
                 let error = errorResponse.json();
                 log("error", error);
@@ -111,10 +118,13 @@ export class LoginFormComponent {
                     message: error.message
                 });
                 this.onError && this.onError(TYPE_REGISTER, error);
+                alert.dismiss();
             });
     }
 
     login() {
+        const alert = this.createLoadingAlert(this.translate.instant('LOGGING_IN'));
+        alert.present();
         this.wpApiAuth.auth({
             username: this.auth.value.username,
             password: this.auth.value.password,
@@ -129,6 +139,7 @@ export class LoginFormComponent {
                     email: json.user_email
                 }));
                 this.onSuccess && this.onSuccess(TYPE_LOGIN, json);
+                alert.dismiss();
             }, errorResponse => {
                 let error = errorResponse.json();
                 log("error", error);
@@ -137,7 +148,12 @@ export class LoginFormComponent {
                     message: error.message
                 });
                 this.onError && this.onError(TYPE_LOGIN, error);
+                alert.dismiss();
             })
+    }
+
+    createLoadingAlert(content) {
+        return this.loadingController.create({ content });
     }
 
 }
