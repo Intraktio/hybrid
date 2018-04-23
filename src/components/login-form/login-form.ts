@@ -11,7 +11,7 @@ import { AppState } from "../../../src/reducers/index";
 import { setAuthentication } from '../../actions';
 import debug from 'debug';
 import { LoadingController } from "ionic-angular";
-import {TranslateService} from "@ngx-translate/core";
+import { TranslateService } from "@ngx-translate/core";
 
 const log = debug('LoginFormComponent');
 
