@@ -38,11 +38,12 @@ export class NetworkNotifierService {
     }
 
     showNetworkLostAlert() {
-        this.alertCtrl.create({
+        const alert = this.alertCtrl.create({
             title: this.translate.instant('NO_INTERNET_CONNECTION'),
             subTitle: this.translate.instant('CONNECTION_LOST_INFO_TEXT'),
             buttons: [this.translate.instant('RETRY')]
         });
+        alert.present();
     }
 
 }
