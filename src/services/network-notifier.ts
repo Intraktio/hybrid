@@ -50,6 +50,7 @@ export class NetworkNotifierService {
         this.networkLostAlert = this.alertCtrl.create({
             title: this.translate.instant('NO_INTERNET_CONNECTION'),
             subTitle: this.translate.instant('CONNECTION_LOST_INFO_TEXT'),
+            enableBackdropDismiss: false,
             buttons: [ {
                 text: this.translate.instant('RETRY'),
                 handler: () => {
