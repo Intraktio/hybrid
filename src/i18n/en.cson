@@ -71,7 +71,7 @@ LOGIN: "Log in"
 REGISTER: "Register"
 OR_REGISTER_HERE: "Or register here"
 OR_LOGIN_HERE: "Or login here"
-LOGGING_IN: "Loggin in..."
+LOGGING_IN: "Logging in..."
 REGISTERING_USER: "Creating account..."
 
 SAVE: "Save"
