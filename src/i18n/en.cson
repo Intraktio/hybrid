@@ -76,3 +76,7 @@ REGISTERING_USER: "Creating account..."
 
 SAVE: "Save"
 EXIT: "Exit"
+
+NO_INTERNET_CONNECTION: "No Internet connection"
+CONNECTION_LOST_INFO_TEXT: "Network connection lost. Please ensure you are connected to Internet and try again."
+RECONNECTED_TO_INTERNET: "Reconnected to Internet"
