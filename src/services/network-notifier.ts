@@ -19,14 +19,11 @@ export class NetworkNotifierService {
     }
 
     listenNetworkChanges() {
-        log('LISTENING TO NETWORK CHANGES!');
         this.network.onDisconnect().subscribe(() => {
-            log('network disconnected');
             this.isOffline = true;
             this.showNetworkLostAlert();
         });
         this.network.onConnect().subscribe(() => {
-            log('network connected');
             this.isOffline = false;
             // We just got a connection but we need to wait briefly
             // before we determine the connection type. Might need to wait
@@ -41,7 +38,14 @@ export class NetworkNotifierService {
         const alert = this.alertCtrl.create({
             title: this.translate.instant('NO_INTERNET_CONNECTION'),
             subTitle: this.translate.instant('CONNECTION_LOST_INFO_TEXT'),
-            buttons: [this.translate.instant('RETRY')]
+            buttons: [ {
+                text: this.translate.instant('RETRY'),
+                handler: () => {
+                    if (this.isOffline) {
+                        this.showNetworkLostAlert();
+                    }
+                }
+            }]
         });
         alert.present();
     }
