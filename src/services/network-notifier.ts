@@ -1,6 +1,6 @@
 import { Network } from '@ionic-native/network';
 import { Injectable } from "@angular/core";
-import { AlertController } from 'ionic-angular';
+import { AlertController, Alert } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import debug from 'debug';
 
@@ -10,6 +10,7 @@ const log = debug('NetworkNotifierService');
 export class NetworkNotifierService {
 
     isOffline: boolean = false;
+    networkLostAlert: Alert = null;
 
     constructor(
         public alertCtrl: AlertController,
@@ -21,10 +22,11 @@ export class NetworkNotifierService {
     listenNetworkChanges() {
         this.network.onDisconnect().subscribe(() => {
             this.isOffline = true;
-            this.showNetworkLostAlert();
+            this.presentNetworkLostAlert();
         });
         this.network.onConnect().subscribe(() => {
             this.isOffline = false;
+            this.dismissNetworkLostAlert();
             // We just got a connection but we need to wait briefly
             // before we determine the connection type. Might need to wait
             // prior to doing any api requests as well.
@@ -34,20 +36,27 @@ export class NetworkNotifierService {
         });
     }
 
-    showNetworkLostAlert() {
-        const alert = this.alertCtrl.create({
+    dismissNetworkLostAlert() {
+        if (this.networkLostAlert !== null) {
+            this.networkLostAlert.dismiss();
+            this.networkLostAlert = null;
+        }
+    }
+
+    presentNetworkLostAlert() {
+        this.networkLostAlert = this.alertCtrl.create({
             title: this.translate.instant('NO_INTERNET_CONNECTION'),
             subTitle: this.translate.instant('CONNECTION_LOST_INFO_TEXT'),
             buttons: [ {
                 text: this.translate.instant('RETRY'),
                 handler: () => {
                     if (this.isOffline) {
-                        this.showNetworkLostAlert();
+                        this.presentNetworkLostAlert();
                     }
                 }
             }]
         });
-        alert.present();
+        this.networkLostAlert.present();
     }
 
 }
