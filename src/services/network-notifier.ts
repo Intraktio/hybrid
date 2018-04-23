@@ -2,6 +2,7 @@ import { Network } from '@ionic-native/network';
 import { Injectable } from "@angular/core";
 import { AlertController, Alert } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Toast } from '../providers/toast'
 import debug from 'debug';
 
 const log = debug('NetworkNotifierService');
@@ -15,7 +16,8 @@ export class NetworkNotifierService {
     constructor(
         public alertCtrl: AlertController,
         private network: Network,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private toast: Toast
     ) {
     }
 
@@ -27,6 +29,7 @@ export class NetworkNotifierService {
         this.network.onConnect().subscribe(() => {
             this.isOffline = false;
             this.dismissNetworkLostAlert();
+            this.toast.show(this.translate.instant('RECONNECTED_TO_INTERNET'));
             // We just got a connection but we need to wait briefly
             // before we determine the connection type. Might need to wait
             // prior to doing any api requests as well.
