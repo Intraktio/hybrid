@@ -190,11 +190,16 @@ export class AbstractListPage {
             });
     }
 
-    doRefresh(refresher: Refresher): void {
+    doRefresh(refresher: Refresher = null): void {
         log('[ListPage] doRefresh');
         this.onClean();
         this.init = false;
-        this.fetch().first().subscribe(() => refresher.complete(), (error) => refresher.complete());
+        if (refresher) {
+            this.fetch().first().subscribe(() => refresher.complete(), (error) => refresher.complete());
+        }
+        else {
+            this.fetch().first().subscribe(() => {}, () => {});
+        }
     }
 
     doInfinite(infiniteScroll: InfiniteScroll): void {

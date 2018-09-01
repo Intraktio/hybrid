@@ -45,6 +45,7 @@ export class AbstractItemPage {
             this.doLoad();
         } else {
             this.init = true;
+            this.doRefresh();
         }
     }
 
@@ -111,9 +112,14 @@ export class AbstractItemPage {
         this.fetch().take(1).subscribe(() => { }, () => { });
     }
 
-    doRefresh(refresher: Refresher): void {
+    doRefresh(refresher: Refresher = null): void {
         console.log('[ItemPage] doRefresh');
-        this.fetch().take(1).subscribe(() => refresher.complete(), (error) => refresher.complete());
+        if (refresher) {
+            this.fetch().take(1).subscribe(() => refresher.complete(), (error) => refresher.complete());
+        }
+        else {
+            this.fetch().take(1).subscribe(() => {}, () => {});
+        }
     }
 
 }

@@ -75,10 +75,14 @@ export class ListPage extends AbstractListPage implements IListPage {
     } else {
       this.init = true;
       this.updateItemsToDisplay();
+      this.doRefresh();
     }
   }
 
   onLoad({ page, totalPages, totalItems, list }: IListResult) {
+    if (!page || page === 0) {
+      this.onClean();
+    }
     this.store.dispatch(addList(this.type, this.options.query, {
       page,
       totalPages,
